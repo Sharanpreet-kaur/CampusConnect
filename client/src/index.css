@@ -69,3 +69,8 @@
 /* Leaflet overrides */
 .leaflet-container { background: #161D2E !important; border-radius: 12px; }
 .leaflet-tile { filter: brightness(0.7) saturate(0.6); }
+html,
+body,
+#root {
+  overflow-x: hidden;
+}

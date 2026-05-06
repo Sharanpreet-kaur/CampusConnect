@@ -33,7 +33,7 @@ export default function Landing() {
   <div className="absolute inset-0 opacity-[0.03]"
     style={{ backgroundImage: 'linear-gradient(#4F8EF7 1px,transparent 1px),linear-gradient(90deg,#4F8EF7 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
 
-  <div className="relative max-w-4xl mx-auto px-6 text-center">
+  <div className="relative w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
 
     {/* Badge */}
     <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-1.5 mb-8 animate-fade-in">
@@ -44,7 +44,7 @@ export default function Landing() {
     </div>
 
     {/* ✅ FIXED HEADING (reduced) */}
-    <h1 className="text-[48px] sm:text-[64px] font-display font-extrabold text-light leading-tight mb-8 animate-fade-up">
+    <h1 className="text-[30px] sm:text-[48px] md:text-[64px] font-display font-extrabold text-light leading-tight mb-8 animate-fade-up">
       Lost something?<br />
       <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-teal">
         We'll find it.
@@ -61,23 +61,33 @@ export default function Landing() {
     </p>
 
     {/* Buttons */}
-    <div
-      className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-16 animate-fade-up"
-      style={{ animationDelay: '0.2s', opacity: 0, animationFillMode: 'forwards' }}
-    >
-      {user ? (
-        <>
-          <Link to="/home" className="btn-primary px-8 py-3 text-sm">Browse Items</Link>
-          <Link to="/new-post" className="btn-ghost px-8 py-3 text-sm">Post an Item</Link>
-        </>
-      ) : (
-        <>
-          <Link to="/register" className="btn-primary px-8 py-3 text-sm">Get Started Free</Link>
-          <Link to="/login" className="btn-ghost px-8 py-3 text-sm">Sign In</Link>
-        </>
-      )}
-    </div>
+   {/* Buttons */}
+<div
+  className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-16 animate-fade-up"
+  style={{ animationDelay: '0.2s', opacity: 0, animationFillMode: 'forwards' }}
+>
+  {user ? (
+    <>
+      <Link to="/home" className="btn-primary px-8 py-3 text-sm">
+        Browse Items
+      </Link>
 
+      <Link to="/new-post" className="btn-ghost px-8 py-3 text-sm">
+        Post an Item
+      </Link>
+    </>
+  ) : (
+    <>
+      <Link to="/register" className="btn-primary px-8 py-3 text-sm">
+        Get Started Free
+      </Link>
+
+      <Link to="/login" className="btn-ghost px-8 py-3 text-sm">
+        Sign In
+      </Link>
+    </>
+  )}
+</div>
     {/* ✅ REFINED STAT PILLS */}
     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-w-2xl mx-auto">
       {STATS.map((s, i) => (
@@ -146,8 +156,8 @@ export default function Landing() {
               <h2 className="section-title text-3xl mb-4">Ready to find it?</h2>
               <p className="text-muted font-body mb-8">Join FindIt and let AI do the heavy lifting.</p>
               {user
-                ? <Link to="/new-post" className="btn-primary px-10 py-4 text-base">Post an Item</Link>
-                : <Link to="/register" className="btn-primary px-10 py-4 text-base">Create Free Account</Link>
+                ? <Link to="/new-post" className="btn-primary inline-flex items-center justify-center px-8 py-3 text-base">Post an Item</Link>
+                : <Link to="/register" className="btn-primary inline-flex items-center justify-center px-8 py-3 text-base">Create Free Account</Link>
               }
             </div>
           </div>
