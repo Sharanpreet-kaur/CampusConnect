@@ -8,7 +8,7 @@ import authRoutes from './routes/auth.routes.js'
 import { errorHandler } from './middleware/errorHandler.js'
 import postRoutes from './routes/post.routes.js'
 import matchRoutes from './routes/match.routes.js'
-import { getEmbedder } from './services/matchingService.js'
+// import { getEmbedder } from './services/matchingService.js'
 import claimRoutes from './routes/claim.routes.js'
 
 const app        = express()
@@ -45,7 +45,7 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000
 // Pre-warm CLIP model on startup
-getEmbedder().catch(console.error)
+// getEmbedder().catch(console.error)
 httpServer.listen(PORT, () =>
   console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`)
 )
