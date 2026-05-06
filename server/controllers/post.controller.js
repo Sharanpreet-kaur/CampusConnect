@@ -41,17 +41,17 @@ export const createPost = async (req, res, next) => {
     }
 
     // 3️⃣ Generate CLIP embedding — THIS IS NEW, ADD AFTER IMAGES
-    if (req.files && req.files.length > 0) {
-      const images = await PostImage.find({ postId: post._id }).sort('order')
-      if (images[0]) {
-        const embedding = await generateEmbedding(images[0].cloudinaryUrl)
-        if (embedding.length > 0) {
-          await Post.findByIdAndUpdate(post._id, { embedding })
-          // Run matching in background — don't block the response
-          runMatchingForPost(post._id).catch(console.error)
-        }
-      }
-    }
+    // if (req.files && req.files.length > 0) {
+    //   const images = await PostImage.find({ postId: post._id }).sort('order')
+    //   if (images[0]) {
+    //     const embedding = await generateEmbedding(images[0].cloudinaryUrl)
+    //     if (embedding.length > 0) {
+    //       await Post.findByIdAndUpdate(post._id, { embedding })
+    //       // Run matching in background — don't block the response
+    //       runMatchingForPost(post._id).catch(console.error)
+    //     }
+    //   }
+    // }
 
     // 4️⃣ Return post with images — THIS STAYS
     const postWithImages = await Post.findById(post._id)
