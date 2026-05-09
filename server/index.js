@@ -12,6 +12,7 @@ import matchRoutes from './routes/match.routes.js'
 import claimRoutes from './routes/claim.routes.js'
 import chatRoutes from './routes/chat.routes.js'
 import { initChatSocket } from './sockets/chatSocket.js'
+import expiryJob from './jobs/expiryJob.js'
 
 
 const app = express()
@@ -57,6 +58,9 @@ app.use(errorHandler)
 const PORT = process.env.PORT || 5000
 
 // getEmbedder().catch(console.error)
+
+expiryJob.start()
+console.log('Expiry cron job scheduled ✅')
 
 httpServer.listen(PORT, () =>
   console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`)
