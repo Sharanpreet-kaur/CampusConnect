@@ -10,6 +10,9 @@ import postRoutes from './routes/post.routes.js'
 import matchRoutes from './routes/match.routes.js'
 // import { getEmbedder } from './services/matchingService.js'
 import claimRoutes from './routes/claim.routes.js'
+import chatRoutes from './routes/chat.routes.js'
+import { initChatSocket } from './sockets/chatSocket.js'
+
 
 const app = express()
 const httpServer = createServer(app)
@@ -47,6 +50,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/matches', matchRoutes)
 app.use('/api/claims', claimRoutes)
+app.use('/api/chats', chatRoutes)
 
 app.use(errorHandler)
 
@@ -57,3 +61,4 @@ const PORT = process.env.PORT || 5000
 httpServer.listen(PORT, () =>
   console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`)
 )
+initChatSocket(io)

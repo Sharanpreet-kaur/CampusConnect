@@ -163,96 +163,130 @@ export default function Chat() {
       )}
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-3">
+<div className="flex-1 p-4 overflow-hidden">
+  <div className="h-full glass border border-border rounded-3xl overflow-y-auto px-4 py-6 space-y-3 shadow-2xl">
 
-        {/* System message */}
-        <div className="text-center">
-          <span className="text-muted text-xs font-mono bg-panel border border-border px-3 py-1.5 rounded-full">
-            🔒 Anonymous relay chat · Your contact info is protected
-          </span>
-        </div>
+    {/* System message */}
+    <div className="text-center">
+      <span className="text-muted text-xs font-mono bg-panel border border-border px-3 py-1.5 rounded-full">
+        🔒 Anonymous relay chat · Your contact info is protected
+      </span>
+    </div>
 
-        {messages.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-4xl mb-3">💬</p>
-            <p className="text-muted text-sm font-body">No messages yet</p>
-            <p className="text-muted text-xs font-mono mt-1">Start the conversation!</p>
-          </div>
-        )}
-
-        {messages.map((msg, i) => {
-          const mine = isMe(msg)
-          const showTime = i === 0 ||
-            new Date(msg.sentAt) - new Date(messages[i-1]?.sentAt) > 5 * 60 * 1000
-
-          return (
-            <div key={msg._id || msg.tempId || i}>
-              {showTime && (
-                <div className="text-center my-2">
-                  <span className="text-muted text-xs font-mono">
-                    {new Date(msg.sentAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                </div>
-              )}
-              <div className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-xs lg:max-w-md xl:max-w-lg`}>
-                  {!mine && (
-                    <p className="text-muted text-xs font-mono mb-1 ml-1">Anonymous</p>
-                  )}
-                  <div className={`px-4 py-3 rounded-2xl text-sm font-body leading-relaxed
-                    ${mine
-                      ? 'bg-accent text-white rounded-tr-sm'
-                      : 'bg-card border border-border text-light rounded-tl-sm'
-                    }
-                    ${msg.isTemp ? 'opacity-70' : ''}`}>
-                    {msg.content}
-                  </div>
-                  {mine && (
-                    <p className="text-muted text-xs font-mono mt-1 text-right mr-1">
-                      {msg.isTemp ? '⏳' : '✓'}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          )
-        })}
-        <div ref={bottomRef} />
+    {messages.length === 0 && (
+      <div className="text-center py-12">
+        <p className="text-4xl mb-3">💬</p>
+        <p className="text-muted text-sm font-body">No messages yet</p>
+        <p className="text-muted text-xs font-mono mt-1">Start the conversation!</p>
       </div>
+    )}
+
+    {messages.map((msg, i) => {
+      const mine = isMe(msg)
+      const showTime = i === 0 ||
+        new Date(msg.sentAt) - new Date(messages[i - 1]?.sentAt) > 5 * 60 * 1000
+
+      return (
+        <div key={msg._id || msg.tempId || i}>
+          {showTime && (
+            <div className="text-center my-2">
+              <span className="text-muted text-xs font-mono">
+                {new Date(msg.createdAt).toLocaleTimeString('en-IN', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </span>
+            </div>
+          )}
+
+          <div className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-xs lg:max-w-md xl:max-w-lg`}>
+
+              {!mine && (
+                <p className="text-muted text-xs font-mono mb-1 ml-1">
+                  Anonymous
+                </p>
+              )}
+
+              <div
+                className={`px-4 py-3 rounded-2xl text-sm font-body leading-relaxed
+                ${
+                  mine
+                    ? 'bg-accent text-white rounded-tr-sm'
+                    : 'bg-card border border-border text-light rounded-tl-sm'
+                }
+                ${msg.isTemp ? 'opacity-70' : ''}`}
+              >
+                {msg.content}
+              </div>
+
+              {mine && (
+                <p className="text-muted text-xs font-mono mt-1 text-right mr-1">
+                  {msg.isTemp ? '⏳' : '✓'}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )
+    })}
+
+    <div ref={bottomRef} />
+  </div>
+</div>
 
       {/* Input area */}
-      <div className="glass border-t border-border px-4 py-3 flex-shrink-0">
-        <div className="flex items-end gap-3 max-w-4xl mx-auto">
-          <div className="flex-1 relative">
-            <textarea
-              ref={inputRef}
-              value={text}
-              onChange={e => setText(e.target.value)}
-              onKeyDown={handleKey}
-              placeholder="Type a message... (Enter to send)"
-              rows={1}
-              className="input resize-none py-3 pr-4 max-h-32 overflow-y-auto"
-              style={{ minHeight: '48px' }}
-            />
-          </div>
-          <button
-            onClick={sendMessage}
-            disabled={!text.trim() || sending}
-            className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center
-              hover:bg-blue-500 active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0">
-            {sending
-              ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <line x1="22" y1="2" x2="11" y2="13"/>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-            }
-          </button>
-        </div>
-        <p className="text-muted text-xs font-mono text-center mt-2">
-          Shift+Enter for new line · Enter to send
-        </p>
+     
+<div className="px-4 pb-4 flex-shrink-0">
+  <div className="glass border border-border rounded-3xl px-4 py-3 shadow-2xl">
+
+    <div className="flex items-end gap-3 max-w-4xl mx-auto">
+
+      <div className="flex-1 relative">
+        <textarea
+          ref={inputRef}
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onKeyDown={handleKey}
+          placeholder="Type a message... (Enter to send)"
+          rows={1}
+          className="input resize-none py-3 pr-4 max-h-32 overflow-y-auto"
+          style={{ minHeight: '48px' }}
+        />
       </div>
+
+      <button
+        onClick={sendMessage}
+        disabled={!text.trim() || sending}
+        className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center
+          hover:bg-blue-500 active:scale-95 transition-all
+          disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+      >
+        {sending ? (
+          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        ) : (
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            strokeWidth="2"
+          >
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        )}
+      </button>
+
+    </div>
+
+    <p className="text-muted text-xs font-mono text-center mt-2">
+      Shift+Enter for new line · Enter to send
+    </p>
+
+  </div>
+</div>
     </div>
   )
 }
